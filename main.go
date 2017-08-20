@@ -9,9 +9,8 @@ import (
 )
 
 func main() {
-	// get dsn
-	dsn := os.Getenv("SENTRY_DSN")
-	if dsn == "" {
+	// check dsn
+	if os.Getenv("SENTRY_DSN") == "" {
 		panic("missing SENTRY_DSN")
 	}
 
