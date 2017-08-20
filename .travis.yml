@@ -8,6 +8,7 @@ install:
   - glide install
 script:
   - go build
+  - rm ./sentry
 before_deploy:
   - gox -osarch="darwin/amd64 linux/amd64" -output="sentry-{{.OS}}-{{.Arch}}" github.com/256dpi/sentry
 deploy:
