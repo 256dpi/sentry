@@ -1,0 +1,8 @@
+hash: 85700fc0a5095fba044a77f4c3317742bd15f7c601e2b24dbf17b54303bc8a6f
+updated: 2017-08-20T22:43:56.620257416+02:00
+imports:
+- name: github.com/certifi/gocertifi
+  version: a61bf5eafa3aee233ec8043e9da052447e5463dd
+- name: github.com/getsentry/raven-go
+  version: 3f7439d3e74d88e21d196ba20eb61a5a958bc118
+testImports: []

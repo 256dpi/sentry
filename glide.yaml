@@ -1,0 +1,3 @@
+package: github.com/256dpi/sentry
+import:
+- package: github.com/getsentry/raven-go
