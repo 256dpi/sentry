@@ -8,11 +8,11 @@ install:
   - glide install
 script:
   - go build
-  - rm ./sentry
 before_deploy:
   - gox -osarch="darwin/amd64 linux/amd64" -output="sentry-{{.OS}}-{{.Arch}}" github.com/256dpi/sentry
 deploy:
   provider: releases
+  skip_cleanup: true
   api_key:
     secure: XK/FYTJNhIuo1uRqIUz9JdoDHe0oW/f/uzyYU6Pi0eAq9xBpc4SM5pJVdDepxcZvr42XsHe1RJcZiXQ3vKf/i6mZUuNuaNvkJAYPAlMbLgLWMJ6nMG5QaEicN9M/+iFHjIzzmOY4gnX4dnFzJZcGgRmLdYkG6Pwa1Nh7Kq0vFLiY22/rKEOP5SNl7vWUrQNymix/OW3A44XFyl45tAMwyt6xSJZcjulohkz+N8EShm9aF33926VyXrKnwFSjd48tDQPGsz2Cb4VFs6ynUBCUbc4Epdo06gAMEW0DeuqjFidKDxCza7Hc8S+myuHsk2sbvA9CiT2m4uFpde9JN4AllW7I7Hr0e0oVA/ID+BJwmqSALabS6p3OSRIwDkT++sCSxBykQxZBHNeUTI0/tCTk6Mz6A95m3qemQM/n5vP3dOf/Li+RlRJxH4REK1ZsizIreRKnJt1mzJyTdmzgAVeY3Zaa+CPkfPetdhneMZJTHL3dQrzh5HmMW3wmb+IDYF5Cfa9IBiL0kfHcp4uPx4DrlT74HuPV2xqIbYHAMby+osbzFQlfMHc9JT1DLvo3x5IPaDwFjmPEUYk97RsAe2KZICE/eA6qg9eH1iKe/N2UTIkNwG2SRawuWE0QxtIhRGq1jbQV9HMv4HWE3FEeOJBscSeUjTPtYzj+LIKT2FqtTLA=
   file:
