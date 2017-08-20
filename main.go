@@ -34,15 +34,20 @@ func main() {
 
 	// run command
 	err := cmd.Run()
-	if _, ok := err.(*exec.ExitError); ok {
-		// send report to sentry
-		raven.CaptureMessageAndWait(buf.String(), nil)
-
-		// print message again
-		print(buf.String())
-
-		os.Exit(1)
-	} else if err != nil {
-		panic(err)
+	if err == nil {
+		// exit immediately if everything did go well
+		os.Exit(0)
+	} else if _, ok := err.(*exec.ExitError); !ok {
+		// write any other error to buffer
+		buf.WriteString(err.Error())
 	}
+
+	// send report to sentry
+	raven.CaptureMessageAndWait(buf.String(), nil)
+
+	// print message again
+	print(buf.String())
+
+	// exit with error
+	os.Exit(1)
 }
