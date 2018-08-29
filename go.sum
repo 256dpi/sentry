@@ -1,0 +1,4 @@
+github.com/certifi/gocertifi v0.0.0-20160926115448-a61bf5eafa3a h1:zmAIZ9hpjwOsxZ/no776lftrcUR2w0lPiDq3tOBZjh4=
+github.com/certifi/gocertifi v0.0.0-20160926115448-a61bf5eafa3a/go.mod h1:GJKEexRPVJrBSOjoqN5VNOIKJ5Q3RViH6eu3puDRwx4=
+github.com/getsentry/raven-go v0.0.0-20161115135411-3f7439d3e74d h1:l+MZegqjcffeVt3U7OldySISIA+wDlizPTz9Ki2u3k4=
+github.com/getsentry/raven-go v0.0.0-20161115135411-3f7439d3e74d/go.mod h1:KungGk8q33+aIAZUIVWZDr2OfAEBsO49PX4NzFV5kcQ=
