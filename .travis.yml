@@ -4,7 +4,6 @@ go:
 install: true
 script:
   - go get github.com/mitchellh/gox
-  - env GO111MODULE=on go build
   - env GO111MODULE=on go test
 before_deploy:
   - gox -osarch="darwin/amd64 linux/amd64" -output="./release/sentry-{{.OS}}-{{.Arch}}" github.com/256dpi/sentry
