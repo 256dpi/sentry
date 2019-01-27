@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"os"
 	"os/exec"
 
@@ -29,25 +28,33 @@ func main() {
 	cmd.Stdin = os.Stdin
 
 	// error tracker
-	buf := bytes.NewBuffer(nil)
-	cmd.Stderr = buf
+	cmd.Stderr = &errorWriter{}
 
 	// run command
 	err := cmd.Run()
 	if err == nil {
 		// exit immediately if everything did go well
 		os.Exit(0)
-	} else if _, ok := err.(*exec.ExitError); !ok {
-		// write any other error to buffer
-		buf.WriteString(err.Error())
 	}
 
-	// send report to sentry
-	raven.CaptureMessageAndWait(buf.String(), nil)
-
-	// print message again
-	print(buf.String())
+	// write error
+	_, _ = cmd.Stderr.Write([]byte(err.Error()))
 
 	// exit with error
 	os.Exit(1)
+}
+
+type errorWriter struct{}
+
+func (w *errorWriter) Write(data []byte) (int, error) {
+	// get string
+	str := string(data)
+
+	// capture error
+	raven.CaptureMessageAndWait(str, nil)
+
+	// log error
+	println(str)
+
+	return len(data), nil
 }
