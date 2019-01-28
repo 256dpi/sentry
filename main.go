@@ -1,10 +1,11 @@
 package main
 
 import (
-	"bytes"
+	"io"
 	"os"
 	"os/exec"
 
+	"github.com/armon/circbuf"
 	"github.com/getsentry/raven-go"
 )
 
@@ -19,6 +20,12 @@ func main() {
 		panic("missing arguments")
 	}
 
+	// circular buffer capped at 2K
+	buf, _ := circbuf.NewBuffer(2000)
+
+	// create a multi writer
+	writer := io.MultiWriter(os.Stderr, buf)
+
 	// create command
 	cmd := exec.Command(os.Args[1], os.Args[2:]...)
 
@@ -29,8 +36,7 @@ func main() {
 	cmd.Stdin = os.Stdin
 
 	// error tracker
-	buf := bytes.NewBuffer(nil)
-	cmd.Stderr = buf
+	cmd.Stderr = writer
 
 	// run command
 	err := cmd.Run()
@@ -38,14 +44,14 @@ func main() {
 		// exit immediately if everything did go well
 		os.Exit(0)
 	} else if _, ok := err.(*exec.ExitError); !ok {
-		// write any other error to buffer
-		buf.WriteString(err.Error())
+		// append error to Stderr
+		_, _ = io.WriteString(cmd.Stderr, err.Error())
 	}
 
 	// send report to sentry
 	raven.CaptureMessageAndWait(buf.String(), nil)
 
-	// print message again
+	// print buffer
 	print(buf.String())
 
 	// exit with error

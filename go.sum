@@ -1,3 +1,5 @@
+github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e h1:QEF07wC0T1rKkctt1RINW/+RMTVmiwxETico2l3gxJA=
+github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
 github.com/certifi/gocertifi v0.0.0-20160926115448-a61bf5eafa3a h1:zmAIZ9hpjwOsxZ/no776lftrcUR2w0lPiDq3tOBZjh4=
 github.com/certifi/gocertifi v0.0.0-20160926115448-a61bf5eafa3a/go.mod h1:GJKEexRPVJrBSOjoqN5VNOIKJ5Q3RViH6eu3puDRwx4=
 github.com/getsentry/raven-go v0.0.0-20161115135411-3f7439d3e74d h1:l+MZegqjcffeVt3U7OldySISIA+wDlizPTz9Ki2u3k4=
