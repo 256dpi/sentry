@@ -7,27 +7,18 @@ import (
 )
 
 func TestWriter(t *testing.T) {
-	cq := make(chan string, 2)
-	pq := make(chan string, 2)
+	var cl []string
+	var pl []string
 
 	w := newWriter(func(s string) {
-		cq <- s
+		cl = append(cl, s)
 	}, func(s string) {
-		pq <- s
+		pl = append(pl, s)
 	}, nil)
 
-	_, _ = w.Write([]byte("foo bar\n"))
-	_, _ = w.Write([]byte("bar baz\n"))
+	_, _ = w.Write([]byte("foo bar"))
+	_, _ = w.Write([]byte("bar baz"))
 
-	c1 := <-cq
-	c2 := <-cq
-	assert.Equal(t, "foo bar", c1)
-	assert.Equal(t, "bar baz", c2)
-	assert.Len(t, cq, 0)
-
-	p1 := <-pq
-	p2 := <-pq
-	assert.Equal(t, "foo bar", p1)
-	assert.Equal(t, "bar baz", p2)
-	assert.Len(t, pq, 0)
+	assert.Equal(t, []string{"foo bar", "bar baz"}, cl)
+	assert.Equal(t, []string{"foo bar", "bar baz"}, pl)
 }

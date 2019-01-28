@@ -32,8 +32,8 @@ func TestTrackError(t *testing.T) {
 	}, nil)
 
 	track(w, "ls", "foo-bar-baz")
-	assert.Equal(t, []string{"ls: foo-bar-baz: No such file or directory", "exit status 1"}, cl)
-	assert.Equal(t, []string{"ls: foo-bar-baz: No such file or directory", "exit status 1"}, pl)
+	assert.Equal(t, []string{"ls: foo-bar-baz: No such file or directory\n", "exit status 1"}, cl)
+	assert.Equal(t, []string{"ls: foo-bar-baz: No such file or directory\n", "exit status 1"}, pl)
 }
 
 func TestTrackErrorFilter(t *testing.T) {
@@ -48,5 +48,5 @@ func TestTrackErrorFilter(t *testing.T) {
 
 	track(w, "ls", "foo-bar-baz")
 	assert.Equal(t, []string{"exit status 1"}, cl)
-	assert.Equal(t, []string{"ls: foo-bar-baz: No such file or directory", "exit status 1"}, pl)
+	assert.Equal(t, []string{"ls: foo-bar-baz: No such file or directory\n", "exit status 1"}, pl)
 }

@@ -22,18 +22,11 @@ func track(w *writer, name string, args ...string) bool {
 	// run command
 	err := cmd.Run()
 	if err == nil {
-		// close writer
-		w.close()
-
 		return true
 	}
 
 	// write exec error
 	_, _ = io.WriteString(cmd.Stderr, err.Error())
-	_, _ = io.WriteString(cmd.Stderr, "\n")
-
-	// close writer
-	w.close()
 
 	return false
 }
