@@ -35,7 +35,7 @@ func main() {
 	// set standard in to current process
 	cmd.Stdin = os.Stdin
 
-	// error tracker
+	// route standard error to multi writer
 	cmd.Stderr = writer
 
 	// run command
