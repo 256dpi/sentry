@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"os"
 	"os/exec"
 )
@@ -28,7 +29,8 @@ func track(w *writer, name string, args ...string) bool {
 	}
 
 	// write exec error
-	_, _ = cmd.Stderr.Write([]byte(err.Error()))
+	_, _ = io.WriteString(cmd.Stderr, err.Error())
+	_, _ = io.WriteString(cmd.Stderr, "\n")
 
 	// close writer
 	w.close()

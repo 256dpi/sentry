@@ -21,13 +21,13 @@ func TestWriter(t *testing.T) {
 
 	c1 := <-cq
 	c2 := <-cq
-	assert.Equal(t, "foo bar\n", c1)
-	assert.Equal(t, "bar baz\n", c2)
+	assert.Equal(t, "foo bar", c1)
+	assert.Equal(t, "bar baz", c2)
 	assert.Len(t, cq, 0)
 
 	p1 := <-pq
 	p2 := <-pq
-	assert.Equal(t, "foo bar\n", p1)
-	assert.Equal(t, "bar baz\n", p2)
+	assert.Equal(t, "foo bar", p1)
+	assert.Equal(t, "bar baz", p2)
 	assert.Len(t, pq, 0)
 }
