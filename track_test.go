@@ -7,13 +7,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var lsErr = "ls: foo-bar-baz: No such file or directory\n"
-var exitErr = "exit status 1"
+var lsErr = []string{"ls: foo-bar-baz: No such file or directory\n", "exit status 1"}
+var exitErr = []string{"exit status 1"}
 
 func init() {
 	if runtime.GOOS == "linux" {
-		lsErr = "ls: cannot access foo-bar-baz: No such file or directory\n"
-		exitErr = "exit status 2"
+		lsErr = []string{"ls: cannot access foo-bar-baz", ": No such file or directory\n", "exit status 2"}
+		exitErr = []string{"exit status 2"}
 	}
 }
 
@@ -43,8 +43,8 @@ func TestTrackError(t *testing.T) {
 	}, nil)
 
 	track(w, "ls", "foo-bar-baz")
-	assert.Equal(t, []string{lsErr, exitErr}, cl)
-	assert.Equal(t, []string{lsErr, exitErr}, pl)
+	assert.Equal(t, lsErr, cl)
+	assert.Equal(t, lsErr, pl)
 }
 
 func TestTrackErrorFilter(t *testing.T) {
@@ -58,6 +58,6 @@ func TestTrackErrorFilter(t *testing.T) {
 	}, newFilter("No such file"))
 
 	track(w, "ls", "foo-bar-baz")
-	assert.Equal(t, []string{exitErr}, cl)
-	assert.Equal(t, []string{lsErr, exitErr}, pl)
+	assert.Equal(t, exitErr, cl)
+	assert.Equal(t, lsErr, pl)
 }
