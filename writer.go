@@ -1,5 +1,7 @@
 package main
 
+// TODO: Use scanner to read line by line?
+
 type writer struct {
 	capturer func(string)
 	printer  func(string)
@@ -15,8 +17,6 @@ func newWriter(capturer, printer func(string), filter func(string) bool) *writer
 }
 
 func (w *writer) Write(data []byte) (int, error) {
-	// TODO: Read line by line.
-
 	// get string
 	str := string(data)
 
@@ -37,4 +37,8 @@ func (w *writer) Write(data []byte) (int, error) {
 	}
 
 	return len(data), nil
+}
+
+func (w *writer) close() {
+
 }
