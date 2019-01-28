@@ -12,7 +12,7 @@ var exitErr = "exit status 1"
 
 func init() {
 	if runtime.GOOS == "linux" {
-		lsErr = "ls: cannot access foo-bar-baz: No such file or directory"
+		lsErr = "ls: cannot access foo-bar-baz: No such file or directory\n"
 		exitErr = "exit status 2"
 	}
 }
