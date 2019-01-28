@@ -5,11 +5,7 @@ import (
 	"strings"
 )
 
-type filter struct {
-	patterns []*regexp.Regexp
-}
-
-func newFilter(config string) *filter {
+func newFilter(config string) func(string) bool {
 	// prepare segments
 	var segments []string
 
@@ -27,19 +23,15 @@ func newFilter(config string) *filter {
 	}
 
 	// create filter
-	filter := &filter{
-		patterns: patterns,
+	filter := func(str string) bool {
+		for _, p := range patterns {
+			if p.MatchString(str) {
+				return true
+			}
+		}
+
+		return false
 	}
 
 	return filter
-}
-
-func (f *filter) match(str string) bool {
-	for _, p := range f.patterns {
-		if p.MatchString(str) {
-			return true
-		}
-	}
-
-	return false
 }

@@ -10,6 +10,6 @@ A small tool to upload logged errors and crash reports of failing programs.
 
 ```bash
 export SENTRY_DSN=THE_SENTRY_DSN
-export SKIP="do not report this"
+export FILTER="do not report this"
 sentry my-app --some arguments
 ```
