@@ -7,6 +7,8 @@ import (
 	"github.com/getsentry/raven-go"
 )
 
+var skipper *filter
+
 func main() {
 	// check dsn
 	if os.Getenv("SENTRY_DSN") == "" {
@@ -17,6 +19,9 @@ func main() {
 	if len(os.Args) < 2 {
 		panic("missing arguments")
 	}
+
+	// create skipper
+	skipper = newFilter(os.Getenv("SKIP"))
 
 	// create command
 	cmd := exec.Command(os.Args[1], os.Args[2:]...)
@@ -37,7 +42,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	// write error
+	// write exec error
 	_, _ = cmd.Stderr.Write([]byte(err.Error()))
 
 	// exit with error
@@ -50,8 +55,13 @@ func (w *errorWriter) Write(data []byte) (int, error) {
 	// get string
 	str := string(data)
 
-	// capture error
-	raven.CaptureMessageAndWait(str, nil)
+	// check filter
+	filtered := skipper.match(str)
+
+	// capture error if not filtered
+	if !filtered {
+		raven.CaptureMessageAndWait(str, nil)
+	}
 
 	// log error
 	println(str)

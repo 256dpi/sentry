@@ -4,11 +4,12 @@
 [![Release](https://img.shields.io/github/release/256dpi/sentry.svg)](https://github.com/256dpi/sentry/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/256dpi/sentry)](http://goreportcard.com/report/256dpi/sentry)
 
-A small tool to upload crash reports of failing programs.
+A small tool to upload logged errors and crash reports of failing programs.
 
 ## Usage
 
 ```bash
 export SENTRY_DSN=THE_SENTRY_DSN
-sentry crashing-program --some arguments
+export SKIP="do not report this"
+sentry my-app --some arguments
 ```
