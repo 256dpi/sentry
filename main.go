@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"os"
+	"os/exec"
 
 	"github.com/getsentry/raven-go"
 )
@@ -17,29 +19,35 @@ func main() {
 		panic("missing arguments")
 	}
 
-	// create filter
-	filter := newFilter(os.Getenv("FILTER"))
+	// create command
+	cmd := exec.Command(os.Args[1], os.Args[2:]...)
 
-	// create capturer
-	capturer := func(s string) {
-		raven.CaptureMessageAndWait(s, nil)
+	// set standard out to current process
+	cmd.Stdout = os.Stdout
+
+	// set standard in to current process
+	cmd.Stdin = os.Stdin
+
+	// error tracker
+	buf := bytes.NewBuffer(nil)
+	cmd.Stderr = buf
+
+	// run command
+	err := cmd.Run()
+	if err == nil {
+		// exit immediately if everything did go well
+		os.Exit(0)
+	} else if _, ok := err.(*exec.ExitError); !ok {
+		// write any other error to buffer
+		buf.WriteString(err.Error())
 	}
 
-	// create printer
-	printer := func(s string) {
-		println(s)
-	}
+	// send report to sentry
+	raven.CaptureMessageAndWait(buf.String(), nil)
 
-	// create writer
-	writer := newWriter(capturer, printer, filter)
+	// print message again
+	print(buf.String())
 
-	// track command
-	ok := track(writer, os.Args[1], os.Args[2:]...)
-	if !ok {
-		// exit with error
-		os.Exit(1)
-	}
-
-	// exit without error
-	os.Exit(0)
+	// exit with error
+	os.Exit(1)
 }
